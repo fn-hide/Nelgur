@@ -23,4 +23,19 @@ st.markdown(
 
 # setup database
 if not os.path.exists('assets/sqlite3.db'):
-    conn = sqlite3.connect('assets/sqlite3.db')
+    
+    with sqlite3.connect('assets/sqlite3.db') as conn:
+        curr = conn.cursor()
+        
+        curr.execute(
+            '''
+            CREATE TABLE Sales (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                datetime DATETIME NOT NULL,
+                quantity INTEGER NOT NULL CHECK (quantity >= 0),
+                price REAL NOT NULL CHECK (price >= 0),
+                total REAL GENERATED ALWAYS AS (quantity * price) STORED
+            );
+            '''
+        )
+
