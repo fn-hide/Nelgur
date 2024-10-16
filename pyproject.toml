@@ -1,0 +1,11 @@
+[project]
+name = "nelgur"
+version = "0.0.1"
+description = "The nelgur."
+dependencies = [
+    "streamlit",
+]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
