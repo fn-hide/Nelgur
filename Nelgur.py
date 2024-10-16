@@ -1,3 +1,5 @@
+import os
+import sqlite3
 import streamlit as st
 
 st.set_page_config(
@@ -18,3 +20,7 @@ st.markdown(
     ### Want to learn more?
 """
 )
+
+# setup database
+if not os.path.exists('assets/sqlite3.db'):
+    conn = sqlite3.connect('assets/sqlite3.db')
