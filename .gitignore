@@ -1,2 +1,5 @@
 # environment
 .*/
+
+# confidental
+sqlite3.db
