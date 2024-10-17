@@ -6,12 +6,13 @@ from datetime import datetime
 
 st.set_page_config(page_title="Input Data", page_icon="📝")
 
-st.markdown("# Input Data")
+'''# 📝Input Data'''
 st.sidebar.header("Input Data")
 st.write(
     """This page provides a form that receive some data with Nelgur. Enjoy!"""
 )
 
+'''## 🏓Tampilan 10 Data Terakhir'''
 stmt = f'''
         select
             *
@@ -21,28 +22,24 @@ stmt = f'''
         limit 10
         '''
 df = pd.read_sql_query(stmt, sqlite3.connect('assets/sqlite3.db'))
-df = df.set_index(keys=['id'])
 df = df.rename(columns={
-    'datetime': 'tanggal', 
-    'quantity': 'kirim',
-    'price': 'harga',
-    'total': 'jumlah',
+    'id': 'ID',
+    'datetime': 'Tanggal', 
+    'quantity': 'Kirim',
+    'price': 'Harga',
+    'total': 'Jumlah',
 })
+df = df.set_index(keys=['ID'])
 st.dataframe(df, use_container_width=True)
 
+'''## 🚛Tambahkan Kiriman'''
 with st.form("sales"):
-    st.write("Tambah Kiriman")
-    
     col1, col2 = st.columns(2)
-
-    # quantity
     quantity = col1.number_input(
-        "Masukkan kuantitas", value=None, placeholder="Kilogram"
+        "Masukkan kuantitas", value=None, placeholder="Kilogram", format='%0.0f'
     )
-
-    # price
     price = col2.number_input(
-        "Masukkan harga", value=None, placeholder="IDR"
+        "Masukkan harga", value=None, placeholder="IDR", format='%0.0f'
     )
 
     # Every form must have a submit button.
