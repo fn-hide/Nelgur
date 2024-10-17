@@ -61,3 +61,5 @@ with st.form("sales"):
                     (?, ?, ?, ?)
                 ''', (datetime.now(), quantity, price, quantity*price)
             )
+        
+        st.rerun()
