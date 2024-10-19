@@ -27,6 +27,9 @@ page_logout = st.Page(logout, title="Log out", icon=":material/logout:")
 dashboard = st.Page(
     "pages/home/dashboard.py", title="Dashboard", icon=":material/dashboard:", default=True
 )
+report = st.Page(
+    "pages/home/report.py", title="Report", icon=":material/book_2:"
+)
 pickups = st.Page(
     "pages/distribution/pickups.py", title="Pickups", icon=":material/phishing:"
 )
@@ -88,7 +91,7 @@ if not os.path.exists('assets/sqlite3.db'):
 if st.session_state.logged_in:
     pg = st.navigation(
         {
-            "Home": [dashboard, page_logout],
+            "Home": [dashboard, report, page_logout],
             "Distribution": [pickups, shipments],
             "Money": [payments],
         }
