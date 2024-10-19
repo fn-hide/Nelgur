@@ -86,7 +86,7 @@ if st.session_state.logged_in:
     pg = st.navigation(
         {
             "Home": [dashboard, page_logout],
-            "Form": [pickups, shipments],
+            "Distribution": [pickups, shipments],
         }
     )
 else:
