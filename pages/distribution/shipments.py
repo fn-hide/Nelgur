@@ -1,18 +1,17 @@
-import os
 import sqlite3
 import pandas as pd
 import streamlit as st
 from datetime import datetime
 
-st.set_page_config(page_title="Input Data", page_icon="📝")
+st.set_page_config(page_title="Kiriman", page_icon="🚛")
 
-'''# 📝Input Data'''
-st.sidebar.header("Input Data")
+'''# 🚛Kiriman'''
+st.sidebar.header("Kiriman")
 st.write(
-    """This page provides a form that receive some data with Nelgur. Enjoy!"""
+    """This page provides all stuffs related with "🚛Kiriman". Enjoy!"""
 )
 
-'''## 🏓Tampilan 10 Data Terakhir'''
+'''## 🗒️Tampilan 5 Data Terakhir'''
 stmt = f'''
         select
             s.id,
@@ -30,7 +29,7 @@ stmt = f'''
         on
             p.id = s.payment_id
         order by s.datetime desc 
-        limit 10
+        limit 5
         '''
 df = pd.read_sql_query(stmt, sqlite3.connect('assets/sqlite3.db'))
 df = df.rename(columns={
@@ -46,7 +45,7 @@ df = df.rename(columns={
 df = df.set_index(keys=['ID'])
 st.dataframe(df, use_container_width=True)
 
-'''## 🚛Tambahkan Kiriman'''
+'''## 📤Tambahkan Kiriman'''
 with st.form("sales"):
     weight = st.number_input(
         "Masukkan berat", value=None, placeholder="Kilogram", format='%0.0f'
