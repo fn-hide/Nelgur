@@ -36,7 +36,18 @@ if not os.path.exists('assets/sqlite3.db'):
                 price REAL NOT NULL,
                 total REAL NOT NULL,
                 quantity INTEGER,
-                kind NOT NULL
+                kind NOT NULL,
+                payment_id INTEGER
+            );
+            '''
+        )
+        
+        curr.execute(
+            '''
+            CREATE TABLE Payments (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                datetime DATETIME NOT NULL,
+                amount REAL NOT NULL
             );
             '''
         )
