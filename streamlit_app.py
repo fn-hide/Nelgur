@@ -42,7 +42,7 @@ payments = st.Page(
 
 # setup database
 if not os.path.exists('assets/sqlite3.db'):
-    
+    os.makedirs('assets', exist_ok=True)
     with sqlite3.connect('assets/sqlite3.db') as conn:
         curr = conn.cursor()
         
