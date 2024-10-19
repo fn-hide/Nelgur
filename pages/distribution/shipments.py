@@ -11,7 +11,7 @@ st.write(
     """This page provides all stuffs related with "🚛Kiriman". Enjoy!"""
 )
 
-'''## :material/table_chart: Tampilan 5 Data Terakhir'''
+'''## :material/table_chart: Tampilan 5 🚛 Terakhir'''
 stmt = f'''
         select
             s.ID,
