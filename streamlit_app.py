@@ -33,6 +33,9 @@ pickups = st.Page(
 shipments = st.Page(
     "pages/distribution/shipments.py", title="Shipments", icon=":material/local_shipping:"
 )
+payments = st.Page(
+    "pages/money/payments.py", title="Payments", icon=":material/payments:"
+)
 
 # setup database
 if not os.path.exists('assets/sqlite3.db'):
@@ -87,6 +90,7 @@ if st.session_state.logged_in:
         {
             "Home": [dashboard, page_logout],
             "Distribution": [pickups, shipments],
+            "Money": [payments],
         }
     )
 else:
