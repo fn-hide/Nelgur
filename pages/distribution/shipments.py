@@ -11,7 +11,7 @@ st.write(
     """This page provides all stuffs related with "🚛Kiriman". Enjoy!"""
 )
 
-'''## 🗒️Tampilan 5 Data Terakhir'''
+'''## :material/table_chart: Tampilan 5 Data Terakhir'''
 stmt = f'''
         select
             s.ID,
@@ -44,7 +44,7 @@ df = df.rename(columns={
 df = df.set_index(keys=['ID'])
 st.dataframe(df, use_container_width=True)
 
-'''## 📤Tambahkan Kiriman'''
+'''## :material/add_task: Tambahkan Kiriman'''
 with st.container(border=True):
     weight = st.number_input(
         "Masukkan berat", value=None, placeholder="Kilogram", format='%0.0f'
