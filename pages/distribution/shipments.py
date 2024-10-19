@@ -52,10 +52,14 @@ with st.container(border=True):
     price = st.number_input(
         "Masukkan harga", value=None, placeholder="IDR", format='%0.0f'
     )
+    if weight and price:
+        st.write(f"Estimasi :green[laba kotor] pada kiriman saat ini adalah :green-background[Rp{weight*price:,.0f}.-] rupiah.")
 
     count = st.number_input(
         "Masukkan jumlah (opsional)", value=None, placeholder="ekor", format='%0.0f'
     )
+    if count:
+        st.write(f"Estimasi berat ikan :blue[per-ekor] adalah :blue-background[{weight/count:.2f}] kg.")
 
     species = st.selectbox(
         "Pilih jenis", options=['Gurami', 'Nila', 'Patin']
