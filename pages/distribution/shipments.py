@@ -14,49 +14,50 @@ st.write(
 '''## 🗒️Tampilan 5 Data Terakhir'''
 stmt = f'''
         select
-            s.id,
-            s.datetime,
-            s.weight,
-            s.price,
-            s.total,
-            s.quantity,
-            s.kind,
-            p.amount
+            s.ID,
+            s.DateCreated,
+            s.Weight,
+            s.Price,
+            s.Amount SalesAmount,
+            s.Count,
+            s.Species,
+            p.Amount PaymentsAmount
         from
             Sales s
         left join
             Payments p
         on
-            p.id = s.payment_id
-        order by s.datetime desc 
+            p.ID = s.PaymentID
+        order by s.DateCreated desc 
         limit 5
         '''
 df = pd.read_sql_query(stmt, sqlite3.connect('assets/sqlite3.db'))
 df = df.rename(columns={
-    'id': 'ID',
-    'datetime': 'Tanggal', 
-    'weight': 'Kirim',
-    'price': 'Harga',
-    'total': 'Subtotal',
-    'quantity': 'Ekor',
-    'kind': 'Jenis',
-    'amount': 'Titipan'
+    'DateCreated': 'Tanggal', 
+    'Weight': 'Kirim',
+    'Price': 'Harga',
+    'SalesAmount': 'Subtotal',
+    'Count': 'Ekor',
+    'Species': 'Jenis',
+    'PaymentsAmount': 'Titipan'
 })
 df = df.set_index(keys=['ID'])
 st.dataframe(df, use_container_width=True)
 
 '''## 📤Tambahkan Kiriman'''
-with st.form("sales"):
+with st.container(border=True):
     weight = st.number_input(
         "Masukkan berat", value=None, placeholder="Kilogram", format='%0.0f'
     )
     price = st.number_input(
         "Masukkan harga", value=None, placeholder="IDR", format='%0.0f'
     )
-    quantity = st.number_input(
-        "Masukkan jumlah", value=None, placeholder="ekor", format='%0.0f'
+
+    count = st.number_input(
+        "Masukkan jumlah (opsional)", value=None, placeholder="ekor", format='%0.0f'
     )
-    kind = st.selectbox(
+
+    species = st.selectbox(
         "Pilih jenis", options=['Gurami', 'Nila', 'Patin']
     )
     payment = st.number_input(
@@ -64,39 +65,38 @@ with st.form("sales"):
     )
 
     # Every form must have a submit button.
-    submitted = st.form_submit_button("Submit")
+    submitted = st.button("Submit", use_container_width=True)
     if submitted:
-        st.write(f"Berat {weight:,.0f} kg, Harga {price:,.0f} rupiah. Total {weight*price:,.0f}.- rupiah.")
-        
         with sqlite3.connect('assets/sqlite3.db') as conn:
+            now = datetime.now()
             curr = conn.cursor()
             
             if payment:
                 curr.execute(
                     '''
                     insert into
-                        Payments (datetime, amount)
+                        Payments (DateCreated, Amount)
                     values
                         (?, ?)
-                    ''', (datetime.now(), payment, )
+                    ''', (now, payment)
                 )
                 
                 curr.execute(
                     '''
                     insert into
-                        Sales (datetime, weight, price, total, quantity, kind, payment_id)
+                        Sales (DateCreated, Weight, Price, Amount, Species, Count, PaymentID)
                     values
                         (?, ?, ?, ?, ?, ?, ?)
-                    ''', (datetime.now(), weight, price, weight*price, quantity, kind, curr.lastrowid)
+                    ''', (now, weight, price, weight*price, species, count, curr.lastrowid)
                 )
             else:
                 curr.execute(
                     '''
                     insert into
-                        Sales (datetime, weight, price, total, quantity, kind)
+                        Sales (DateCreated, Weight, Price, Amount, Count, Species)
                     values
                         (?, ?, ?, ?, ?, ?)
-                    ''', (datetime.now(), weight, price, weight*price, quantity, kind)
+                    ''', (now, weight, price, weight*price, count, species)
                 )
         
         st.rerun()
