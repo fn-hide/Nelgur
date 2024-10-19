@@ -42,6 +42,21 @@ if not os.path.exists('assets/sqlite3.db'):
         
         curr.execute(
             '''
+            CREATE TABLE Purchases (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                DateCreated DATETIME NOT NULL,
+                Weight INTEGER NOT NULL,
+                Price REAL NOT NULL,
+                Amount REAL NOT NULL,
+                Species NOT NULL,
+                Count INTEGER,
+                PaymentID INTEGER
+            );
+            '''
+        )
+        
+        curr.execute(
+            '''
             CREATE TABLE Sales (
                 ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 DateCreated DATETIME NOT NULL,
@@ -60,7 +75,8 @@ if not os.path.exists('assets/sqlite3.db'):
             CREATE TABLE Payments (
                 ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 DateCreated DATETIME NOT NULL,
-                Amount REAL NOT NULL
+                Amount REAL NOT NULL,
+                Type TEXT NOT NULL
             );
             '''
         )

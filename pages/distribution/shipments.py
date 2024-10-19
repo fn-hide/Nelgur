@@ -79,10 +79,10 @@ with st.container(border=True):
                 curr.execute(
                     '''
                     insert into
-                        Payments (DateCreated, Amount)
+                        Payments (DateCreated, Amount, Type)
                     values
-                        (?, ?)
-                    ''', (now, payment)
+                        (?, ?, ?)
+                    ''', (now, payment, 'Kiriman')
                 )
                 
                 curr.execute(
