@@ -32,9 +32,11 @@ if not os.path.exists('assets/sqlite3.db'):
             CREATE TABLE Sales (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 datetime DATETIME NOT NULL,
-                quantity INTEGER NOT NULL,
+                weight INTEGER NOT NULL,
                 price REAL NOT NULL,
-                total REAL NOT NULL
+                total REAL NOT NULL,
+                quantity INTEGER,
+                kind NOT NULL
             );
             '''
         )

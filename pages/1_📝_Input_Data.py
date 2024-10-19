@@ -25,27 +25,34 @@ df = pd.read_sql_query(stmt, sqlite3.connect('assets/sqlite3.db'))
 df = df.rename(columns={
     'id': 'ID',
     'datetime': 'Tanggal', 
-    'quantity': 'Kirim',
+    'weight': 'Kirim',
     'price': 'Harga',
-    'total': 'Jumlah',
+    'total': 'Subtotal',
+    'quantity': 'Ekor',
+    'kind': 'Jenis',
 })
 df = df.set_index(keys=['ID'])
 st.dataframe(df, use_container_width=True)
 
 '''## 🚛Tambahkan Kiriman'''
 with st.form("sales"):
-    col1, col2 = st.columns(2)
-    quantity = col1.number_input(
-        "Masukkan kuantitas", value=None, placeholder="Kilogram", format='%0.0f'
+    weight = st.number_input(
+        "Masukkan berat", value=None, placeholder="Kilogram", format='%0.0f'
     )
-    price = col2.number_input(
+    price = st.number_input(
         "Masukkan harga", value=None, placeholder="IDR", format='%0.0f'
+    )
+    quantity = st.number_input(
+        "Masukkan jumlah", value=None, placeholder="ekor", format='%0.0f'
+    )
+    kind = st.selectbox(
+        "Pilih jenis", options=['Gurami', 'Nila', 'Patin']
     )
 
     # Every form must have a submit button.
     submitted = st.form_submit_button("Submit")
     if submitted:
-        st.write(f"Kuantitas {quantity:,.0f}, Harga {price:,.0f}. Total {quantity*price:,.0f}.-")
+        st.write(f"Berat {weight:,.0f} kg, Harga {price:,.0f} rupiah. Total {weight*price:,.0f}.- rupiah.")
         
         with sqlite3.connect('assets/sqlite3.db') as conn:
             curr = conn.cursor()
@@ -53,10 +60,10 @@ with st.form("sales"):
             curr.execute(
                 '''
                 insert into
-                    Sales (datetime, quantity, price, total)
+                    Sales (datetime, weight, price, total, quantity, kind)
                 values
-                    (?, ?, ?, ?)
-                ''', (datetime.now(), quantity, price, quantity*price)
+                    (?, ?, ?, ?, ?, ?)
+                ''', (datetime.now(), weight, price, weight*price, quantity, kind)
             )
         
         st.rerun()
